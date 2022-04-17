@@ -106,8 +106,8 @@ dist
 vscode
 vscode-web
 dist
-demo/static
-demo/code-*
-demo/favicon.ico
-demo/manifest.json
-demo/playground.js
+#demo/static
+#demo/code-*
+#demo/favicon.ico
+#demo/manifest.json
+#demo/playground.js
