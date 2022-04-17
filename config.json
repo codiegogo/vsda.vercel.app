@@ -1,0 +1,7 @@
+{
+  "developmentOptions": {},
+  "enableWorkspaceTrust": true,
+  "productConfiguration": {
+    "embedderIdentifier": "server-distro"
+  }
+}

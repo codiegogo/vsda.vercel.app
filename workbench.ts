@@ -14,12 +14,17 @@ declare const window: any;
     workspaceUri?: UriComponents;
   } = {};
 
+  console.log('initial workbench.config', config);
   if (window.product) {
     config = window.product;
+    console.log('from workbench.product', config);
   } else {
     const result = await fetch("/product.json");
     config = await result.json();
+    console.log('from /product.json', config);
   }
+
+  console.log('btwiuse 1', config);
 
   if (Array.isArray(config.additionalBuiltinExtensions)) {
     const tempConfig = { ...config };
@@ -29,6 +34,8 @@ declare const window: any;
     config = tempConfig;
   }
 
+  console.log('btwiuse 2', config);
+
   let workspace;
   if (config.folderUri) {
     workspace = { folderUri: URI.revive(config.folderUri) };
@@ -37,6 +44,8 @@ declare const window: any;
   } else {
     workspace = undefined;
   }
+
+  console.log('btwiuse 3', config);
 
   if (workspace) {
     const workspaceProvider: IWorkspaceProvider = {
@@ -49,6 +58,13 @@ declare const window: any;
     };
     config = { ...config, workspaceProvider };
   }
+
+  console.log('btwiuse 4', config);
+
+  config = {
+	  ...config,
+	  remoteAuthority: "127.0.0.1:8081",
+  };
 
   create(document.body, config);
 })();
