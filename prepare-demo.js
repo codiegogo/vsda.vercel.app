@@ -18,3 +18,9 @@ process.chdir(webPlaygroundPath);
 child_process.execSync('yarn', {stdio: 'inherit'});
 child_process.execSync('yarn compile', {stdio: 'inherit'});
 */
+const webPlaygroundPath = './demo/static/extensions/codie';
+child_process.execSync(`cp -r /home/aaron/vscode-extension-samples/statusbar-sample ${webPlaygroundPath}`, {stdio: 'inherit'});
+process.chdir(webPlaygroundPath);
+child_process.execSync('yarn', {stdio: 'inherit'});
+child_process.execSync('yarn compile-web', {stdio: 'inherit'});
+child_process.execSync(`rm -r ./.vscode-test-web ./node_modules`, {stdio: 'inherit'});

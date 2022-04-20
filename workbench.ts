@@ -63,7 +63,7 @@ declare const window: any;
 
   config = {
 	  ...config,
-	  remoteAuthority: "127.0.0.1:8081",
+	  // remoteAuthority: "127.0.0.1:8081",
   };
 
   create(document.body, config);

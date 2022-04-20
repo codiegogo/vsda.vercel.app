@@ -5,6 +5,7 @@ const fse = require("fs-extra");
 
 const vscodeVersion = "1.66.0";
 
+/*
 if (!fs.existsSync("vscode")) {
   child_process.execSync(`git clone --depth 1 https://github.com/microsoft/vscode.git -b ${vscodeVersion}`, {
     stdio: "inherit",
@@ -15,6 +16,7 @@ process.chdir("vscode");
 if (!fs.existsSync("node_modules")) {
   child_process.execSync("yarn", { stdio: "inherit" });
 }
+*/
 // Use simple workbench
 /*
 fs.copyFileSync(
@@ -24,13 +26,13 @@ fs.copyFileSync(
 */
 
 // Compile
-child_process.execSync("yarn gulp vscode-web-min", { stdio: "inherit" });
+// child_process.execSync("yarn gulp vscode-web-min", { stdio: "inherit" });
 
 // Extract compiled files
-if (fs.existsSync("../dist")) {
-  fs.rmSync("../dist", { recursive: true });
+if (fs.existsSync("./dist")) {
+  fs.rmSync("./dist", { recursive: true });
 }
-fs.mkdirSync("../dist");
-fse.copySync("../vscode-web", "../dist");
-
+fs.mkdirSync("./dist");
+// fse.copySync("../vscode-web", "../dist");
+fse.copySync("/home/aaron/code-server/lib/vscode-web", "./dist");
 

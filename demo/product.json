@@ -1,9 +1,21 @@
 {
 	"productConfiguration": {
-		"nameShort": "Code Web",
-		"nameLong": "Code Web",
-		"applicationName": "code-web",
-		"dataFolderName": ".vscode-web",
-		"version": "1.66.0"
-	}
+		"nameShort": "Codie Web",
+		"nameLong": "Codie Web",
+		"applicationName": "codie-web",
+		"dataFolderName": ".codie-web",
+		"version": "1.66.0",
+		"extensionEnabledApiProposals": {
+			"btwiuse.codie": [
+				"resolvers",
+				"contribViewsRemote"
+			]
+		}
+	},
+	"additionalBuiltinExtensions": [
+		{
+			"scheme": "http",
+			"path": "/static/extensions/codie"
+		}
+	]
 }
