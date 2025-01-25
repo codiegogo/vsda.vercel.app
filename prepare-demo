@@ -1,0 +1,14 @@
+#!/usr/bin/env -S bash
+
+# Remove existing static directory if it exists
+if [ -d "./demo/static" ]; then
+   rm -rf "./demo/static"
+fi
+
+# Copy directories recursively
+cp -r "./dist/extensions" "./demo/static/extensions"
+cp -r "./dist/node_modules" "./demo/static/node_modules" 
+cp -r "./dist/out" "./demo/static/out"
+
+# Clone playground repository
+git clone https://github.com/microsoft/vscode-web-playground.git "./demo/static/extensions/vscode-web-playground"

@@ -1,0 +1,68 @@
+#!/usr/bin/env -S bash
+
+# Get version from package.json
+VSCODE_VERSION=$(jq -r '.version' package.json | cut -d'-' -f1)
+
+# Color output functions
+error() { echo -e "\033[31merror $1\033[0m"; }
+ok() { echo -e "\033[32m$1\033[0m"; }
+note() { echo -e "\033[90m$1\033[0m"; }
+run() { echo -e "\033[36m$1\033[0m"; eval "$1"; }
+
+# Check required tools
+TOOLS=("node" "yarn" "git" "python")
+note "required tools ${TOOLS[*]}"
+for tool in "${TOOLS[@]}"; do
+   if ! command -v "$tool" >/dev/null 2>&1; then
+       error "\"$tool\" is not available."
+       exit 1
+   fi
+done
+ok "required tools installed"
+
+# Check node version
+NODE_VERSION=$(node -v)
+if [[ "${NODE_VERSION:1:2}" -lt 20 ]]; then
+   error "Want node > 20. Got \"$NODE_VERSION\""
+   exit 1
+fi
+
+# Clone vscode if needed
+if [ ! -d "vscode" ]; then
+   note "cloning vscode"
+   run "git clone --depth 1 https://github.com/microsoft/vscode.git -b $VSCODE_VERSION"
+else
+   ok "vscode already installed"
+   note "delete vscode folder to clone again"
+fi
+
+# Change directory and install dependencies
+note "changing directory to vscode"
+cd vscode || exit 1
+
+if [ ! -d "node_modules" ]; then
+   ELECTRON_SKIP_BINARY_DOWNLOAD=1 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 run "yarn"
+else
+   ok "node_modules exists. Skipping yarn"
+fi
+
+# Copy workbench file
+note "copying workbench file"
+cp "../workbench.ts" "src/vs/code/browser/workbench/workbench.ts"
+
+# Compile
+note "starting compile"
+run "yarn gulp vscode-web-min"
+ok "compile completed"
+
+# Handle dist directory
+if [ -d "../dist" ]; then
+   note "cleaning ../dist"
+   rm -rf "../dist"
+else
+   ok "../dist did not exist. No need to clean"
+fi
+
+mkdir "../dist"
+cp -r "../vscode-web/"* "../dist/"
+ok "copied ../vscode-web to ../dist"
