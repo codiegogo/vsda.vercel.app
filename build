@@ -30,6 +30,7 @@ fi
 # Clone vscode if needed
 if [ ! -d "vscode" ]; then
    note "cloning vscode"
+   VSCODE_VERSION=main
    run "git clone --depth 1 https://github.com/microsoft/vscode.git -b $VSCODE_VERSION"
 else
    ok "vscode already installed"
@@ -41,18 +42,18 @@ note "changing directory to vscode"
 cd vscode || exit 1
 
 if [ ! -d "node_modules" ]; then
-   ELECTRON_SKIP_BINARY_DOWNLOAD=1 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 run "yarn"
+   ELECTRON_SKIP_BINARY_DOWNLOAD=1 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 run "npm i"
 else
    ok "node_modules exists. Skipping yarn"
 fi
 
 # Copy workbench file
-note "copying workbench file"
-cp "../workbench.ts" "src/vs/code/browser/workbench/workbench.ts"
+# note "copying workbench file"
+# cp "../workbench.ts" "src/vs/code/browser/workbench/workbench.ts"
 
 # Compile
 note "starting compile"
-run "yarn gulp vscode-web-min"
+run "yarn gulp vscode-web"
 ok "compile completed"
 
 # Handle dist directory

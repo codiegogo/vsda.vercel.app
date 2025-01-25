@@ -5,6 +5,8 @@ if [ -d "./demo/static" ]; then
    rm -rf "./demo/static"
 fi
 
+mkdir -p ./demo/static/
+
 # Copy directories recursively
 cp -r "./dist/extensions" "./demo/static/extensions"
 cp -r "./dist/node_modules" "./demo/static/node_modules" 
